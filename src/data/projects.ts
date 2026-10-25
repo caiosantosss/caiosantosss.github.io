@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import pricetracker from '../assets/projects/pricetracker1.png';
 import hlj from '../assets/projects/hlj.png';
 import kikoe from '../assets/projects/kikoe.png';
 import barter from '../assets/projects/barter.png';
@@ -18,6 +19,20 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    title: 'Price Tracker',
+    kind: 'Full-stack web app',
+    description:
+      'Tracks a product’s price on a website and sends an email alert when the price drops. Scrapes product pages and stores price history.',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Nodemailer', 'Cheerio'],
+    image: pricetracker,
+    alt: 'Price Tracker home page',
+    links: [
+      { label: 'Live', href: 'https://pricetracker-tau.vercel.app/' },
+      { label: 'Source', href: 'https://github.com/caiosantosss/pricetracker' },
+    ],
+    featured: true,
+  },
   {
     title: 'HLJ.com',
     kind: 'E-commerce · Professional work',
