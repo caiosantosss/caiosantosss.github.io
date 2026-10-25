@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { profile, experience, skills, education } from '../data/profile';
+import { projects } from '../data/projects';
+import portrait from '../assets/profile/caio.jpg';
+
+const year = new Date().getFullYear();
+---
+
+<Base>
+  <Header />
+  <main id="main">
+    <section id="top" class="hero wrap">
+      <p class="eyebrow">{profile.nameJa} · {profile.location}</p>
+      <h1>{profile.name}</h1>
+      <p class="lede">{profile.headline}</p>
+      <p class="sub">{profile.intro}</p>
+      <p class="cta">
+        <a class="btn primary" href={`mailto:${profile.email}`}>Get in touch</a>
+        <a class="btn" href={profile.resume} download>Résumé (PDF)</a>
+        <a class="btn ghost" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="btn ghost" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      </p>
+    </section>
+
+    <section id="about" class="wrap section">
+      <h2><span class="num">01</span> About</h2>
+      <div class="about-grid">
+        <Image
+          class="portrait"
+          src={portrait}
+          alt="Portrait of Caio Santos"
+          width={320}
+          height={320}
+          format="webp"
+        />
+        <div class="prose">
+          {profile.about.map((p) => <p>{p}</p>)}
+          <p class="meta">
+            <strong>Languages:</strong>
+            {profile.languages.map((l) => `${l.name} (${l.level})`).join(' · ')}
+          </p>
+          <p class="meta"><strong>Outside work:</strong> {profile.interests}</p>
+        </div>
+      </div>
+
+      <h3 class="subhead">Toolbox</h3>
+      <dl class="skills">
+        {
+          skills.map((g) => (
+            <div>
+              <dt>{g.label}</dt>
+              <dd>
+                <ul class="tags">
+                  {g.items.map((i) => <li>{i}</li>)}
+                </ul>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section id="experience" class="wrap section">
+      <h2><span class="num">02</span> Experience</h2>
+      <ol class="timeline">
+        {
+          experience.map((job) => (
+            <li>
+              <div class="when">
+                <p>{job.period}</p>
+                <p class="where">{job.location}</p>
+              </div>
+              <div class="what">
+                <h3>
+                  {job.role} <span class="at">· {job.company}</span>
+                </h3>
+                {job.note && <p class="note">{job.note}</p>}
+                <ul>
+                  {job.bullets.map((b) => <li>{b}</li>)}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <h3 class="subhead">Education</h3>
+      <ul class="edu">
+        {
+          education.map((e) => (
+            <li>
+              <span><strong>{e.school}</strong> — {e.detail}</span>
+              <span class="yr">{e.year}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="projects" class="wrap section">
+      <h2><span class="num">03</span> Selected projects</h2>
+      <p class="section-intro">
+        A mix of professional work and personal projects. More on
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>.
+      </p>
+      <div class="grid">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </section>
+
+    <section id="contact" class="wrap section contact">
+      <h2><span class="num">04</span> Contact</h2>
+      <p class="big">
+        I’m open to conversations about product engineering and technical leadership roles. The
+        quickest way to reach me is email.
+      </p>
+      <p class="cta">
+        <a class="btn primary" href={`mailto:${profile.email}`}>{profile.email}</a>
+        <a class="btn" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>© {year} {profile.name}</p>
+    <p>Built with Astro &amp; TypeScript</p>
+  </footer>
+</Base>
