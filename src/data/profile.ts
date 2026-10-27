@@ -15,17 +15,18 @@ export interface SkillGroup {
 export const profile = {
   name: 'Caio Santos',
   nameJa: 'カイオ・サントス',
-  title: 'Tech Lead · Full-stack Engineer',
+  title: 'Software Engineer · Full-stack',
   location: 'Tokyo, Japan',
   email: 'caio.santos@msn.com',
   github: 'https://github.com/caiosantosss',
+  githubWork: 'https://github.com/caiosantosstx',
   linkedin: 'https://www.linkedin.com/in/caiosantosss/',
   resume: '/CaioSantos_Resume_2026.pdf',
-  headline: 'I lead teams and build web products that ship.',
+  headline: 'Software engineer in Tokyo, building websites and apps for Japanese companies.',
   intro:
-    'Tech Lead and full-stack engineer with 4+ years delivering web and mobile products for enterprise clients in Japan. Hands-on across Java, Python, Ruby and TypeScript, with a recent focus on Adobe Experience Manager.',
+    'Full-stack, with 4+ years of hands-on work across Java, Python, Ruby and TypeScript, and a recent focus on Adobe Experience Manager.',
   about: [
-    'I’m a Tech Lead at Sutrix Solutions Japan, where I own architecture and delivery of Adobe Experience Manager (AEM) solutions for major Japanese enterprises. I guide a team of 4–5 engineers across three concurrent client projects: technical direction, code review, and keeping delivery on schedule.',
+    'I’m a software engineer at Sutrix Solutions Japan, building Adobe Experience Manager (AEM) websites for major Japanese enterprises: Java on the back end, responsive HTML, CSS and JavaScript on the front, and a lot of code review along the way.',
     'Before that I built an iOS and Android matching app with Rails, React Native and Next.js, and re-architected the HLJ.com e-commerce platform for international customers with Django, Docker and AWS.',
     'I grew up in Brazil, studied in Australia, and have called Tokyo home since. I enjoy translating business requirements into maintainable software, and explaining technical trade-offs to non-technical people.',
   ],
@@ -41,12 +42,12 @@ export const profile = {
 export const experience: Job[] = [
   {
     company: 'Sutrix Solutions Japan',
-    role: 'Tech Lead',
+    role: 'Software Engineer',
     period: 'Mar 2024 – Present',
     location: 'Tokyo · Hybrid',
-    note: 'Promoted from Software Engineer to Tech Lead in Jun 2026',
+    note: 'Tech Lead since Jun 2026',
     bullets: [
-      'Lead architecture and delivery of Adobe Experience Manager (AEM) web solutions for major Japanese enterprises including Panasonic, Sato, Mazda, and YKK.',
+      'Build and deliver Adobe Experience Manager (AEM) web solutions for major Japanese enterprises including Panasonic, Sato, Mazda, and YKK.',
       'Guide a team of 4–5 engineers, owning technical direction, code review, and delivery quality across 3 concurrent client projects.',
       'Build backend tools in Java and responsive front-end experiences with HTML, JavaScript, and CSS for brand-critical websites.',
       'Streamlined task planning and prioritization, improving delivery efficiency and consistently shipping on schedule.',

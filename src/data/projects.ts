@@ -1,4 +1,6 @@
 import type { ImageMetadata } from 'astro';
+import yotei from '../assets/projects/yotei.jpg';
+import farewatch from '../assets/projects/farewatch.jpg';
 import pricetracker from '../assets/projects/pricetracker1.png';
 import hlj from '../assets/projects/hlj.png';
 import kikoe from '../assets/projects/kikoe.png';
@@ -15,10 +17,39 @@ export interface Project {
   image: ImageMetadata;
   alt: string;
   links: { label: string; href: string }[];
+  /** Shown instead of links, e.g. for projects not public yet */
+  status?: string;
+  /** Optional demo video (files in /public) opened in a pop-up player */
+  video?: { src: string; poster?: string };
   featured?: boolean;
 }
 
 export const projects: Project[] = [
+  {
+    title: 'Yotei 予定',
+    kind: 'iOS app · Side project',
+    description:
+      'Group event planning for my Tokyo friend group: turn the group chat into a plan, see who’s in at a glance, and get daily café, lunch and dinner picks.',
+    stack: ['React Native', 'Expo', 'TypeScript', 'Supabase', 'PostgreSQL'],
+    image: yotei,
+    alt: 'Yotei app screens: group chat, event RSVPs and daily picks',
+    links: [],
+    status: 'In development · not public yet',
+    video: { src: '/media/yotei-demo.mp4', poster: '/media/yotei-poster.jpg' },
+    featured: true,
+  },
+  {
+    title: 'Fare Watch',
+    kind: 'Web app · Side project',
+    description:
+      'Tracks the cheapest flights from Tokyo to the places I want to go. An hourly job refreshes each search and keeps price history, so I can see whether fares are rising or falling.',
+    stack: ['Cloudflare Workers', 'KV', 'JavaScript', 'Travelpayouts API'],
+    image: farewatch,
+    alt: 'Fare Watch screens: tracked routes with prices and monthly price bars',
+    links: [],
+    status: 'Personal tool · not public yet',
+    featured: true,
+  },
   {
     title: 'Price Tracker',
     kind: 'Full-stack web app',
