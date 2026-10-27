@@ -14,21 +14,23 @@ const year = new Date().getFullYear();
   <Header />
   <main id="main">
     <section id="top" class="hero wrap">
-      <p class="eyebrow">{profile.nameJa} · {profile.location}</p>
-      <h1>{profile.name}</h1>
-      <p class="lede">{profile.headline}</p>
-      <p class="sub">{profile.intro}</p>
-      <p class="cta">
+      <div class="glow" aria-hidden="true"><span></span><span></span></div>
+      <p class="eyebrow rise" style="--d:0">{profile.nameJa} · {profile.location}</p>
+      <h1 class="rise" style="--d:1">{profile.name}</h1>
+      <p class="lede rise" style="--d:2">{profile.headline}</p>
+      <p class="sub rise" style="--d:3">{profile.intro}</p>
+      <p class="cta rise" style="--d:4">
         <a class="btn primary" href={`mailto:${profile.email}`}>Get in touch</a>
         <a class="btn" href={profile.resume} download>Résumé (PDF)</a>
         <a class="btn ghost" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a class="btn ghost" href={profile.githubWork} target="_blank" rel="noopener noreferrer">Work GitHub ↗</a>
         <a class="btn ghost" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
       </p>
     </section>
 
     <section id="about" class="wrap section">
-      <h2><span class="num">01</span> About</h2>
-      <div class="about-grid">
+      <h2 data-reveal><span class="num">01</span> About</h2>
+      <div class="about-grid" data-reveal>
         <Image
           class="portrait"
           src={portrait}
@@ -47,8 +49,8 @@ const year = new Date().getFullYear();
         </div>
       </div>
 
-      <h3 class="subhead">Toolbox</h3>
-      <dl class="skills">
+      <h3 class="subhead" data-reveal>Toolbox</h3>
+      <dl class="skills" data-reveal>
         {
           skills.map((g) => (
             <div>
@@ -65,11 +67,11 @@ const year = new Date().getFullYear();
     </section>
 
     <section id="experience" class="wrap section">
-      <h2><span class="num">02</span> Experience</h2>
+      <h2 data-reveal><span class="num">02</span> Experience</h2>
       <ol class="timeline">
         {
           experience.map((job) => (
-            <li>
+            <li data-reveal>
               <div class="when">
                 <p>{job.period}</p>
                 <p class="where">{job.location}</p>
@@ -88,8 +90,8 @@ const year = new Date().getFullYear();
         }
       </ol>
 
-      <h3 class="subhead">Education</h3>
-      <ul class="edu">
+      <h3 class="subhead" data-reveal>Education</h3>
+      <ul class="edu" data-reveal>
         {
           education.map((e) => (
             <li>
@@ -102,25 +104,27 @@ const year = new Date().getFullYear();
     </section>
 
     <section id="projects" class="wrap section">
-      <h2><span class="num">03</span> Selected projects</h2>
-      <p class="section-intro">
-        A mix of professional work and personal projects. More on
-        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>.
+      <h2 data-reveal><span class="num">03</span> Selected projects</h2>
+      <p class="section-intro" data-reveal>
+        A mix of professional work and personal projects. Client work lives on my
+        <a href={profile.githubWork} target="_blank" rel="noopener noreferrer">work GitHub</a>; personal
+        projects on <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a>.
       </p>
       <div class="grid">
-        {projects.map((p) => <ProjectCard project={p} />)}
+        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
       </div>
     </section>
 
     <section id="contact" class="wrap section contact">
-      <h2><span class="num">04</span> Contact</h2>
-      <p class="big">
-        I’m open to conversations about product engineering and technical leadership roles. The
+      <h2 data-reveal><span class="num">04</span> Contact</h2>
+      <p class="big" data-reveal>
+        I’m open to conversations about software engineering roles, especially on product teams. The
         quickest way to reach me is email.
       </p>
       <p class="cta">
         <a class="btn primary" href={`mailto:${profile.email}`}>{profile.email}</a>
         <a class="btn" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a class="btn" href={profile.githubWork} target="_blank" rel="noopener noreferrer">Work GitHub ↗</a>
       </p>
     </section>
   </main>
@@ -129,4 +133,68 @@ const year = new Date().getFullYear();
     <p>© {year} {profile.name}</p>
     <p>Built with Astro &amp; TypeScript</p>
   </footer>
+
+  <script>
+    // Reveal elements as they scroll into view
+    const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+      );
+      items.forEach((el) => io.observe(el));
+
+      // Highlight the nav link for the section on screen
+      const links = new Map(
+        [...document.querySelectorAll<HTMLAnchorElement>('.site-header nav a')].map((a) => [
+          a.getAttribute('href')?.slice(1),
+          a,
+        ]),
+      );
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            const link = links.get(e.target.id);
+            if (link) link.classList.toggle('active', e.isIntersecting);
+          }
+        },
+        { rootMargin: '-45% 0px -50% 0px' },
+      );
+      document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+    } else {
+      items.forEach((el) => el.classList.add('in'));
+    }
+
+    // Demo videos open in a pop-up player
+    document.querySelectorAll<HTMLButtonElement>('[data-open-video]').forEach((btn) => {
+      const dialog = document.getElementById(btn.dataset.openVideo!) as HTMLDialogElement | null;
+      const video = dialog?.querySelector('video');
+      if (!dialog || !video) return;
+      const close = () => dialog.close();
+      btn.addEventListener('click', () => {
+        dialog.showModal();
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      });
+      dialog.querySelector('[data-close-video]')?.addEventListener('click', close);
+      // click on the dark backdrop closes it
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) close();
+      });
+      dialog.addEventListener('close', () => video.pause());
+    });
+
+    // Header gets a shadow once you scroll
+    const header = document.querySelector('.site-header');
+    const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  </script>
 </Base>

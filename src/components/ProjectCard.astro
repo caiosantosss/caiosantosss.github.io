@@ -4,11 +4,13 @@ import type { Project } from '../data/projects';
 
 interface Props {
   project: Project;
+  index?: number;
 }
-const { project } = Astro.props;
+const { project, index = 0 } = Astro.props;
+const dialogId = `video-${project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
 
-<article class="card">
+<article class="card" data-reveal style={`--i:${index % 2}`}>
   <div class="shot">
     <Image
       src={project.image}
@@ -18,6 +20,16 @@ const { project } = Astro.props;
       format="webp"
       loading="lazy"
     />
+    {
+      project.video && (
+        <button class="play" type="button" data-open-video={dialogId} aria-label={`Watch the ${project.title} demo video`}>
+          <span class="play-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+          </span>
+          Watch demo
+        </button>
+      )
+    }
   </div>
   <div class="body">
     <p class="kind">{project.kind}</p>
@@ -26,14 +38,32 @@ const { project } = Astro.props;
     <ul class="tags" aria-label="Technologies">
       {project.stack.map((s) => <li>{s}</li>)}
     </ul>
-    <p class="links">
-      {
-        project.links.map((l) => (
-          <a href={l.href} target="_blank" rel="noopener noreferrer">
-            {l.label} <span aria-hidden="true">↗</span>
-          </a>
-        ))
-      }
-    </p>
+    {
+      project.links.length > 0 ? (
+        <p class="links">
+          {project.links.map((l) => (
+            <a href={l.href} target="_blank" rel="noopener noreferrer">
+              {l.label} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </p>
+      ) : (
+        project.status && (
+          <p class="status">
+            <span class="dot" aria-hidden="true" />
+            {project.status}
+          </p>
+        )
+      )
+    }
   </div>
 </article>
+
+{
+  project.video && (
+    <dialog id={dialogId} class="video-dialog" aria-label={`${project.title} demo video`}>
+      <button class="close" type="button" data-close-video aria-label="Close video">✕</button>
+      <video src={project.video.src} poster={project.video.poster} controls playsinline preload="none" width="720" height="1280" />
+    </dialog>
+  )
+}
